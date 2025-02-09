@@ -1,13 +1,22 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Box, CircularProgress } from '@mui/material';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
-import Projects from './components/Projects/Projects';
-import Skills from './components/Skills/Skills';
-import Contact from './components/Contact/Contact';
-import Footer from './components/Footer/Footer';
-import { Box } from '@mui/material';
+
+// Lazy load non-critical components
+const Projects = React.lazy(() => import('./components/Projects/Projects'));
+const Skills = React.lazy(() => import('./components/Skills/Skills'));
+const Contact = React.lazy(() => import('./components/Contact/Contact'));
+const Footer = React.lazy(() => import('./components/Footer/Footer'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+    <CircularProgress color="primary" />
+  </Box>
+);
 
 function App() {
   const [mode, setMode] = useState('light');
@@ -88,16 +97,24 @@ function App() {
           <Box id="home">
             <Hero />
           </Box>
-          <Box id="projects">
-            <Projects />
-          </Box>
-          <Box id="skills">
-            <Skills />
-          </Box>
-          <Box id="contact">
-            <Contact />
-          </Box>
-          <Footer />
+          <Suspense fallback={<LoadingFallback />}>
+            <Box id="projects">
+              <Projects />
+            </Box>
+          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>
+            <Box id="skills">
+              <Skills />
+            </Box>
+          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>
+            <Box id="contact">
+              <Contact />
+            </Box>
+          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>
+            <Footer />
+          </Suspense>
         </Box>
       </Box>
     </ThemeProvider>

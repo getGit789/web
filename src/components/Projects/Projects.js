@@ -33,13 +33,31 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const ProjectImage = styled('img')(({ theme }) => ({
+const ProjectImageWrapper = styled(Box)(({ isComingSoon }) => ({
+  position: 'relative',
+  '&::after': isComingSoon ? {
+    content: '"Coming Soon..."',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: 'bold',
+  } : {},
+}));
+
+const ProjectImage = styled('img')(({ isComingSoon }) => ({
   width: '100%',
-  height: '200px', 
+  height: '200px',
   objectFit: 'cover',
   objectPosition: 'center top',
-  display: 'block',
-  backgroundColor: theme.palette.mode === 'dark' ? '#1E1E1E' : '#f5f5f5',
+  filter: isComingSoon ? 'grayscale(100%)' : 'none',
 }));
 
 const ProjectContent = styled(CardContent)({
@@ -55,22 +73,12 @@ const ProjectTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   marginBottom: '16px',
   color: theme.palette.text.primary,
-  height: '36px', 
-  display: '-webkit-box',
-  WebkitLineClamp: 1,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
 }));
 
 const ProjectDescription = styled(Typography)(({ theme }) => ({
   fontSize: '16px',
   color: theme.palette.text.secondary,
   marginBottom: '24px',
-  height: '72px', 
-  display: '-webkit-box',
-  WebkitLineClamp: 3,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
 }));
 
 const TechStack = styled(Box)({
@@ -85,17 +93,13 @@ const TechChip = styled(Chip)(({ theme }) => ({
   color: theme.palette.mode === 'dark' ? '#E040FB' : '#9C27B0',
   borderRadius: '16px',
   fontWeight: 500,
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(156, 39, 176, 0.25)' : 'rgba(156, 39, 176, 0.2)',
-  },
 }));
 
 const ButtonContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
-  justifyContent: 'center',
   marginTop: 'auto',
-  paddingTop: '24px',
+  justifyContent: 'center',
 });
 
 const projects = [
@@ -104,40 +108,39 @@ const projects = [
     description: 'A modern chat application with real-time messaging, user authentication, and message history.',
     tech: ['Node.js', 'Socket.io', 'React', 'MongoDB'],
     demo: 'https://realtimechatapp-57e81.web.app/',
-    code: 'https://github.com/yourusername/chat-app',
-    image: process.env.PUBLIC_URL + '/realtimechat.webp'
+    code: 'https://github.com/getGit789/pingit',
+    image: process.env.PUBLIC_URL + '/realtimechatappimage.png'
   },
   {
     title: 'E-commerce Dashboard',
     description: 'Admin dashboard for managing products, orders, and customer data with analytics.',
-    tech: ['TypeScript', 'React', 'Redux', 'Python'],
-    demo: 'https://dashboard-demo.com',
-    code: 'https://github.com/yourusername/dashboard',
-    image: process.env.PUBLIC_URL + '/ecommercedashboard.jpg'
+    tech: ['Next.js', 'TypeScript', 'React', 'Redux'],
+    demo: 'https://fidlygrid-ce08b.web.app/',
+    code: 'https://github.com/getGit789/ecommerce',
+    image: process.env.PUBLIC_URL + '/ecommerce.png'
   },
   {
     title: 'Weather Application',
     description: 'Weather forecast app with location search and detailed weather information.',
-    tech: ['JavaScript', 'OpenWeather API', 'React'],
+    tech: ['JavaScript', 'OpenWeather API', 'HTML', 'CSS'],
     demo: 'https://getgit789.github.io/weather/',
-    code: 'https://github.com/yourusername/weather-app',
+    code: 'https://github.com/getGit789/weather',
     image: process.env.PUBLIC_URL + '/wheatherapp.png'
   },
   {
-    title: 'Todo Application',
-    description: 'A full-featured task management system built with the MERN stack, including user authentication and real-time updates.',
-    tech: ['MongoDB', 'Express.js', 'React', 'Node.js'],
-    demo: 'https://task-manager-demo.com',
-    code: 'https://github.com/yourusername/task-manager',
-    image: process.env.PUBLIC_URL + '/todoapp.jpg'
+    title: 'Note-Taking Application',
+    description: 'A modern task management app featuring a Pomodoro timer, drag-and-drop interface, task prioritization, real-time updates',
+    tech: ['React.js', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'Vite'],
+    demo: 'https://notenook.up.railway.app',
+    code: 'https://github.com/getGit789/notenook',
+    image: process.env.PUBLIC_URL + '/notenook.png'
   },
   {
-    title: 'Portfolio Website Builder',
-    description: 'A NextJs based portfolio website builder with customizable themes and components.',
-    tech: ['React', 'NextJS', 'TypeScript'],
-    demo: 'https://portfolio-builder-demo.com',
-    code: 'https://github.com/yourusername/portfolio-builder',
-    image: process.env.PUBLIC_URL + '/websitebuilder.PNG'
+    title: 'Resume Builder',
+    description: 'AI-powered Resume Builder in Next.js with customizable themes and dynamic components for professional,...',
+    tech: ['Next.js', 'React', 'OpenAI', 'TailwindCSS', 'TypeScript'],
+    image: process.env.PUBLIC_URL + '/websitebuilder.PNG',
+    comingSoon: true
   }
 ];
 
@@ -149,10 +152,13 @@ function Projects() {
         {projects.map((project, index) => (
           <Grid item xs={12} md={4} key={index}>
             <ProjectCard elevation={0}>
-              <ProjectImage 
-                src={project.image} 
-                alt={project.title}
-              />
+              <ProjectImageWrapper isComingSoon={project.comingSoon}>
+                <ProjectImage 
+                  src={project.image} 
+                  alt={project.title}
+                  isComingSoon={project.comingSoon}
+                />
+              </ProjectImageWrapper>
               <ProjectContent>
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
@@ -161,28 +167,30 @@ function Projects() {
                     <TechChip key={i} label={tech} />
                   ))}
                 </TechStack>
-                <ButtonContainer>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<GitHubIcon />}
-                    href={project.code}
-                    target="_blank"
-                  >
-                    Code
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    endIcon={<LaunchIcon />}
-                    component="a"
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Demo
-                  </Button>
-                </ButtonContainer>
+                {!project.comingSoon && (
+                  <ButtonContainer>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<GitHubIcon />}
+                      href={project.code}
+                      target="_blank"
+                    >
+                      Code
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      endIcon={<LaunchIcon />}
+                      component="a"
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Demo
+                    </Button>
+                  </ButtonContainer>
+                )}
               </ProjectContent>
             </ProjectCard>
           </Grid>

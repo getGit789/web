@@ -47,3 +47,10 @@
     padding: 0.5rem;
   }
 }
+
+#resume-builder {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}

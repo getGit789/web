@@ -112,7 +112,7 @@ function Hero() {
   return (
     <HeroContainer>
       <Name variant="h1">Damir Kranjcevic</Name>
-      <Title variant="h2">Full Stack Developer</Title>
+      <Title variant="h2">Web Developer & Linux Security Enthusiast</Title>
       <Description>
         {isMobile 
           ? "Creating modern web applications with cutting-edge technologies." 

@@ -85,17 +85,17 @@ const skillsData = {
   backend: {
     icon: <StorageIcon />,
     title: 'Backend',
-    skills: ['Node.js', 'Express', 'NestJS', 'Python'],
+    skills: ['Node.js', 'Express.js', 'Python'],
   },
   database: {
     icon: <CloudIcon />,
     title: 'Database',
-    skills: ['MongoDB', 'PostgreSQL', 'Redis', 'MySQL'],
+    skills: ['MongoDB', 'PostgreSQL'],
   },
   devops: {
     icon: <DeveloperModeIcon />,
     title: 'DevOps',
-    skills: ['Docker', 'AWS', 'CI/CD', 'Kubernetes'],
+    skills: ['Docker', 'CI/CD'],
   },
 };
 
