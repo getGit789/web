@@ -1,3 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /static/js/
+Disallow: /static/css/
+Disallow: /static/media/
+
+# Sitemap
+Sitemap: https://damirkranjcevic.com/sitemap.xml

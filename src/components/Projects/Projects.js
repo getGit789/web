@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Card, CardContent, Button, Grid, Chip, styled } from '@mui/material';
+import { Box, Typography, Card, CardContent, Button, Grid, Chip, styled, CircularProgress } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LaunchIcon from '@mui/icons-material/Launch';
 
@@ -33,9 +33,9 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const ProjectImageWrapper = styled(Box)(({ isComingSoon }) => ({
+const ProjectImageWrapper = styled(Box)(({ $isComingSoon }) => ({
   position: 'relative',
-  '&::after': isComingSoon ? {
+  '&::after': $isComingSoon ? {
     content: '"Coming Soon..."',
     position: 'absolute',
     top: 0,
@@ -52,20 +52,18 @@ const ProjectImageWrapper = styled(Box)(({ isComingSoon }) => ({
   } : {},
 }));
 
-const ProjectImage = styled('img')(({ isComingSoon }) => ({
+const ProjectImage = styled('img')(({ $isComingSoon }) => ({
   width: '100%',
   height: '200px',
   objectFit: 'cover',
-  objectPosition: 'center top',
-  filter: isComingSoon ? 'grayscale(100%)' : 'none',
+  display: 'block',
+  filter: $isComingSoon ? 'grayscale(100%)' : 'none',
 }));
 
 const ProjectContent = styled(CardContent)({
   flexGrow: 1,
-  padding: '24px',
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
 });
 
 const ProjectTitle = styled(Typography)(({ theme }) => ({
@@ -101,6 +99,43 @@ const ButtonContainer = styled(Box)({
   marginTop: 'auto',
   justifyContent: 'center',
 });
+
+const OptimizedImage = ({ src, alt, $isComingSoon }) => {
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  return (
+    <Box position="relative">
+      <ProjectImage
+        src={src}
+        alt={alt}
+        $isComingSoon={$isComingSoon}
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        sx={{
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 0.3s ease-in-out',
+        }}
+      />
+      {!isLoaded && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: 'grey.200',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress size={30} />
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 const projects = [
   {
@@ -152,11 +187,11 @@ function Projects() {
         {projects.map((project, index) => (
           <Grid item xs={12} md={4} key={index}>
             <ProjectCard elevation={0}>
-              <ProjectImageWrapper isComingSoon={project.comingSoon}>
-                <ProjectImage 
+              <ProjectImageWrapper $isComingSoon={project.comingSoon}>
+                <OptimizedImage 
                   src={project.image} 
                   alt={project.title}
-                  isComingSoon={project.comingSoon}
+                  $isComingSoon={project.comingSoon}
                 />
               </ProjectImageWrapper>
               <ProjectContent>

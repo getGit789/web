@@ -1,15 +1,19 @@
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, Suspense, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, CircularProgress } from '@mui/material';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { initGA, logPageView } from './utils/analytics';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
+import CookieConsent from './components/CookieConsent/CookieConsent';
 
 // Lazy load non-critical components
 const Projects = React.lazy(() => import('./components/Projects/Projects'));
 const Skills = React.lazy(() => import('./components/Skills/Skills'));
 const Contact = React.lazy(() => import('./components/Contact/Contact'));
 const Footer = React.lazy(() => import('./components/Footer/Footer'));
+const Privacy = React.lazy(() => import('./components/Privacy/Privacy'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -19,104 +23,83 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  useEffect(() => {
+    // Initialize Google Analytics
+    initGA('G-JTMK33YMW7');
+    
+    // Google Analytics page views will only be tracked if consent is given
+    const hasConsent = localStorage.getItem('cookieConsent') === 'accepted';
+    if (hasConsent) {
+      logPageView();
+    }
+  }, []);
+
   const [mode, setMode] = useState('light');
 
-  const getDesignTokens = (mode) => ({
-    palette: {
-      mode,
-      ...(mode === 'light'
-        ? {
-            // Light mode
-            primary: {
-              main: '#9C27B0',
-            },
-            background: {
-              default: '#f5f5f5',
-              paper: '#ffffff',
-            },
-            text: {
-              primary: '#1a1a1a',
-              secondary: '#666666',
-            },
-          }
-        : {
-            // Dark mode
-            primary: {
-              main: '#E040FB',
-            },
-            background: {
-              default: '#121212',
-              paper: '#1E1E1E',
-            },
-            text: {
-              primary: '#ffffff',
-              secondary: '#B0B0B0',
-            },
-          }),
-    },
-    typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-      h1: {
-        fontSize: 'clamp(2rem, 6vw, 3.75rem)',
-      },
-      h2: {
-        fontSize: 'clamp(1.5rem, 4vw, 3rem)',
-      },
-      body1: {
-        fontSize: 'clamp(1rem, 3vw, 1.25rem)',
-      }
-    },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 960,
-        lg: 1280,
-        xl: 1920,
-      },
-    },
-  });
-
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
-  const toggleColorMode = () => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  };
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+          ...(mode === 'light'
+            ? {
+                // Light mode
+                primary: {
+                  main: '#9C27B0',
+                },
+                background: {
+                  default: '#f5f5f5',
+                  paper: '#ffffff',
+                },
+              }
+            : {
+                // Dark mode
+                primary: {
+                  main: '#CE93D8',
+                },
+                background: {
+                  default: '#121212',
+                  paper: '#1E1E1E',
+                },
+              }),
+        },
+      }),
+    [mode],
+  );
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ 
-        minHeight: '100vh',
-        bgcolor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <Header toggleColorMode={toggleColorMode} mode={mode} />
-        <Box component="main">
-          <Box id="home">
-            <Hero />
+      <Router>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Header mode={mode} setMode={setMode} />
+          <Box component="main" sx={{ flex: 1 }}>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/privacy-policy" element={<Privacy />} />
+                <Route path="/" element={
+                  <>
+                    <Box id="home">
+                      <Hero />
+                    </Box>
+                    <Box id="projects">
+                      <Projects />
+                    </Box>
+                    <Box id="skills">
+                      <Skills />
+                    </Box>
+                    <Box id="contact">
+                      <Contact />
+                    </Box>
+                  </>
+                } />
+              </Routes>
+            </Suspense>
           </Box>
-          <Suspense fallback={<LoadingFallback />}>
-            <Box id="projects">
-              <Projects />
-            </Box>
-          </Suspense>
-          <Suspense fallback={<LoadingFallback />}>
-            <Box id="skills">
-              <Skills />
-            </Box>
-          </Suspense>
-          <Suspense fallback={<LoadingFallback />}>
-            <Box id="contact">
-              <Contact />
-            </Box>
-          </Suspense>
-          <Suspense fallback={<LoadingFallback />}>
-            <Footer />
-          </Suspense>
+          <Footer />
+          <CookieConsent />
         </Box>
-      </Box>
+      </Router>
     </ThemeProvider>
   );
 }

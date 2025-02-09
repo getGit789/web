@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="theme-color" content="#9C27B0" />
-    <meta
-      name="description"
-      content="Damir Kranjcevic - Web Developer & Linux Security Enthusiast"
-    />
+    
+    <!-- Primary Meta Tags -->
+    <title>Damir Kranjcevic | Full Stack Developer & Linux Security Expert</title>
+    <meta name="title" content="Damir Kranjcevic | Full Stack Developer & Linux Security Expert">
+    <meta name="description" content="Experienced Full Stack Developer specializing in React, Node.js, and Linux security. View my portfolio of web applications, security solutions, and open-source contributions." />
+    <meta name="keywords" content="Full Stack Developer, Web Developer, React Developer, Node.js, Linux Security, Cybersecurity, JavaScript, TypeScript, Portfolio, Damir Kranjcevic" />
+    <meta name="author" content="Damir Kranjcevic" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://damirkranjcevic.com/" />
+    <meta property="og:title" content="Damir Kranjcevic | Full Stack Developer & Linux Security Expert" />
+    <meta property="og:description" content="Experienced Full Stack Developer specializing in React, Node.js, and Linux security. View my portfolio of web applications, security solutions, and open-source contributions." />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://damirkranjcevic.com/" />
+    <meta property="twitter:title" content="Damir Kranjcevic | Full Stack Developer & Linux Security Expert" />
+    <meta property="twitter:description" content="Experienced Full Stack Developer specializing in React, Node.js, and Linux security. View my portfolio of web applications, security solutions, and open-source contributions." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+    
+    <!-- Google Analytics with Consent Mode -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Default consent settings
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied'
+      });
+
+      // Initialize Google Analytics with Consent Mode
+      gtag('js', new Date());
+      gtag('config', 'G-JTMK33YMW7', {
+        'anonymize_ip': true
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JTMK33YMW7"></script>
+    
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
@@ -18,29 +55,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- SEO and Social Media Meta Tags -->
-    <meta property="og:title" content="Damir Kranjcevic - Web Developer & Linux Security Enthusiast" />
-    <meta property="og:description" content="Portfolio showcasing web development skills and projects" />
-    <meta property="og:type" content="website" />
-    
-    <title>Damir Kranjcevic | Web Developer & Linux Security Enthusiast</title>
-    
-    <!-- Accessibility Improvements -->
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="Damir Kranjcevic" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://damirkranjcevic.com/" />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

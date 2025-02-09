@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import XIcon from '../Icons/XIcon';
 
 const FooterContainer = styled(Box)(({ theme }) => ({
   padding: '24px',
@@ -35,6 +35,8 @@ const Copyright = styled(Typography)(({ theme }) => ({
 }));
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <FooterContainer>
       <SocialLinks>
@@ -42,6 +44,7 @@ function Footer() {
           href="https://github.com/getGit789" 
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHub Profile"
         >
           <GitHubIcon />
         </StyledIconButton>
@@ -49,6 +52,7 @@ function Footer() {
           href="https://www.linkedin.com/in/damir-kranjcevic-613825200" 
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="LinkedIn Profile"
         >
           <LinkedInIcon />
         </StyledIconButton>
@@ -56,12 +60,13 @@ function Footer() {
           href="https://x.com/DKranjcevi1973" 
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="X (Twitter) Profile"
         >
-          <TwitterIcon />
+          <XIcon />
         </StyledIconButton>
       </SocialLinks>
       <Copyright>
-        &copy; 2024 Damir Kranjcevic. All rights reserved.
+        &copy; {currentYear} Damir Kranjcevic. All rights reserved.
       </Copyright>
     </FooterContainer>
   );

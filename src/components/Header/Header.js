@@ -16,6 +16,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 
 const StyledAppBar = styled(AppBar)(({ theme, shrink }) => ({
   background: theme.palette.mode === 'light' 
@@ -127,11 +128,12 @@ const MobileMenuIcon = styled(IconButton)(({ theme }) => ({
   }
 }));
 
-function Header({ toggleColorMode, mode }) {
+function Header({ mode, setMode }) {
   const [shrink, setShrink] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -162,6 +164,14 @@ function Header({ toggleColorMode, mode }) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleThemeToggle = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const renderNavLinks = (isMobileMenu = false) => (
     isMobileMenu ? (
       <List>
@@ -183,7 +193,7 @@ function Header({ toggleColorMode, mode }) {
         ))}
         <ListItem>
           <IconButton 
-            onClick={toggleColorMode} 
+            onClick={handleThemeToggle} 
             sx={{ 
               color: theme.palette.text.primary,
               width: '100%',
@@ -199,7 +209,7 @@ function Header({ toggleColorMode, mode }) {
         <NavLink shrink={shrink ? 1 : 0} onClick={() => scrollToSection('projects')}>Projects</NavLink>
         <NavLink shrink={shrink ? 1 : 0} onClick={() => scrollToSection('skills')}>Skills</NavLink>
         <NavLink shrink={shrink ? 1 : 0} onClick={() => scrollToSection('contact')}>Contact</NavLink>
-        <ThemeToggle onClick={toggleColorMode} shrink={shrink ? 1 : 0}>
+        <ThemeToggle onClick={handleThemeToggle} shrink={shrink ? 1 : 0}>
           {mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
         </ThemeToggle>
       </>
@@ -210,7 +220,7 @@ function Header({ toggleColorMode, mode }) {
     <>
       <StyledAppBar elevation={0} shrink={shrink ? 1 : 0}>
         <StyledToolbar shrink={shrink ? 1 : 0}>
-          <Logo shrink={shrink ? 1 : 0} onClick={() => scrollToSection('home')}>DK</Logo>
+          <Logo shrink={shrink ? 1 : 0} onClick={handleLogoClick}>DK</Logo>
           
           {isMobile ? (
             <MobileMenuIcon 
